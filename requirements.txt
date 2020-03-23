@@ -1,0 +1,9 @@
+bokeh==2.0.0
+colorcet==2.0.2
+holoviews==1.13.0
+numpy==1.18.2
+pandas==1.0.3
+panel==0.9.3
+param==1.9.3
+scikit-learn==0.22.2.post1
+

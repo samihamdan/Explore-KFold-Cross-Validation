@@ -45,3 +45,24 @@ def create_scatter(ds, fold):
             .to(hv.Points, kdims=['x', 'y'], vdims=['color', 'hover_fold', 'y_pred'], groupby=[])
             .opts(color='color', size=5, width=800, height=550)
             .opts('Points', tools=[hover]))
+
+
+def create_line(ds, fold, show_unselected):
+    unique_folds = ds.data.data_split.unique()
+    hover = HoverTool(tooltips=[
+        ("fold", "@data_split")
+    ])
+
+    available_colors = my_fold_colors(ds)
+    alpha = .05 if show_unselected else 0
+    cmap = [color if this_fold == fold else hex_to_rgb(color, alpha=alpha)
+            for this_fold, color in zip(unique_folds, available_colors)]
+
+    lines = (ds
+             .sort()
+             .to(hv.Curve, kdims=['x'], vdims=['y_pred'], groupby=['data_split']).overlay(['data_split'])
+             .opts('Curve', color=hv.Cycle(cmap), line_width=5, tools=[hover])
+             .opts(show_legend=False, width=800, height=550, xlim=(0, 11), ylim=(0, 13))
+             )
+
+    return lines

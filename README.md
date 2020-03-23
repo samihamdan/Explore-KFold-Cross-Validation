@@ -17,4 +17,5 @@ To do so use:
     * [`pip install colorcet`](https://colorcet.holoviz.org/getting_started/index.html)
 
 ### Run Bokeh server
-run `bokeh serve --show ExploreKFold` in this directory. 
+run `bokeh serve --show ExploreKFold` in this directory.
+Now Bokeh should open a new browser (tab) and display the dashboard. 

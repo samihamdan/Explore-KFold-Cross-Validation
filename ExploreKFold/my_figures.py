@@ -1,5 +1,6 @@
 import re
 import colorcet
+import pandas as pd
 import holoviews as hv
 from bokeh.colors import RGB
 from bokeh.models import HoverTool
@@ -66,3 +67,23 @@ def create_line(ds, fold, show_unselected):
              )
 
     return lines
+
+
+def create_dist_plot(ds, fold):
+    df = ds.data
+    df['absolute error'] = (df.y - df.y_pred).abs()
+    df_selected = df.loc[df['data_split'] == fold].copy()
+    df_selected['selected'] = fold
+
+    df_all = df.groupby(['data_split', 'in_train_set']).mean().reset_index()
+    df_all['selected'] = 'all'
+
+    ds_dist = hv.Dataset(pd.concat([df_selected, df_all]),
+                         kdims=['selected', 'in_train_set'], vdims=['absolute error'])
+    opts = dict(width=600, height=540)
+    boxWhisker = (ds_dist
+                  .to(hv.BoxWhisker, kdims=['selected', 'in_train_set'], groupby=[])
+                  .opts(**opts, ylim=(0, 4))
+                  )
+    violin = hv.Violin(boxWhisker).opts(**opts)
+    return (boxWhisker + violin).opts(tabs=True)

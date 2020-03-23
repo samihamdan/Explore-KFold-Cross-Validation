@@ -28,7 +28,9 @@ def create_scatter(ds, fold):
     def fold_to_nbr(fold_name):
         return int(''.join([s for s in fold_name if s.isdigit()]))
 
-    ds.data['hover_fold'] = ds.data.apply(lambda row: ('in fold ' if row['in_train_set'] else 'out of fold ')
+    ds.data['hover_fold'] = ds.data.apply(lambda row: ('in fold ' if row['in_train_set'] == 'in_fold'
+                                                       else 'out of fold ' if row['in_train_set'] == 'out_fold'
+                                                       else 'extra test set')
                                                       + str(fold_to_nbr(row['data_split'])), axis=1)
 
     hover = HoverTool(tooltips=[
@@ -39,7 +41,7 @@ def create_scatter(ds, fold):
         ds.data['color'] = ds.data.data_split.map(lambda fold_name: color_palette[fold_to_nbr(fold_name)])
         ds_filtered = ds.select(in_train_set=['out_fold'])
     else:
-        ds.data['color'] = ds.data.in_train_set.map(lambda in_train: 'black' if in_train else 'lightgrey')
+        ds.data['color'] = ds.data.in_train_set.map(lambda in_train: 'black' if in_train == 'in_fold' else 'lightgrey')
         ds_filtered = ds.select(in_train_set=['in_fold', 'out_fold'], data_split=fold)
 
     return (ds_filtered

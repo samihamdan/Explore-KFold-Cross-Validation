@@ -3,7 +3,8 @@
 
 ## Run it yourself: 
 
-### Setup (Dependencies) 
+### Local
+#### Setup (Dependencies) 
 First clone this repository. Then pip (or conda) install all dependencies.
 To do so use: 
 
@@ -16,6 +17,14 @@ To do so use:
     * [`pip install holoviews`](https://holoviews.org/install.html)
     * [`pip install colorcet`](https://colorcet.holoviz.org/getting_started/index.html)
 
-### Run Bokeh server
+#### Run Bokeh server
 run `bokeh serve --show ExploreKFold` in this directory.
 Now Bokeh should open a new browser (tab) and display the dashboard. 
+
+### Online
+Here is a link to a deployed online version:
+https://explore-kfold-cross-validation.herokuapp.com/main   
+**Please note**:  
+This link will not always work. Due to my use of the hobby version of [heroku](https://www.heroku.com/) this version is limited in how many people can access it at the same time. 
+
+
